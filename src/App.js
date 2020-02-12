@@ -15,35 +15,23 @@ const App = () => (
 
 const Boot_Form = (props) => {
 
-/*  constructor(props) {
-    super(props);
-    this.state = {
-      input_email: '',
-      input_password: '',
-      emailValid: false,
-      passwordValid: false,
-      formValid: false
-    }
-    this.handleUserInput = this.handleUserInput.bind(this);
-  };
-*/
 
 //let input_email = '';
+//let formValid = false;
 let input_password = '';
 let emailValid = false;
 let passwordValid = false;
 
-const [input_email, SetEmail] = useState('');
+const [input_email, setEmail] = useState('');
 
-const [formValid, SetFormState] = useState(false);
+const [formValid, setFormState] = useState(false);
 
-//let formValid = false;
   
 const validateField = (fieldName, value) => {
     switch (fieldName) {
-      case 'input_email':       
+      case 'input_email':
         emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-        SetEmail(value);
+       // setEmail(value);
         break;
       case 'input_password':
         passwordValid = value.length >= 6;
@@ -54,12 +42,13 @@ const validateField = (fieldName, value) => {
   }
 
  const validateForm = () => {
-    SetFormState(emailValid && passwordValid);    
+  console.log("ev: " + emailValid + " pv: " + passwordValid);
+    setFormState(emailValid && passwordValid);    
   }
 
-  const handleUserInput = (event) => { 
-    console.log("em: " + emailValid);
-    validateField(event.target.name, event.target.value);
+  const handleUserInput = (event) => {     
+    validateField(event.target.name, event.target.value);    
+    console.log("n: " + emailValid);
     validateForm();
   }
 
@@ -89,9 +78,7 @@ const validateField = (fieldName, value) => {
         <Button variant="primary" type="submit" name="but_submit" disabled={!formValid} >
           Submit
         </Button>
-      </Form>
-      
-      
+      </Form> 
   ]);
 }
 
