@@ -14,36 +14,29 @@ const App = () => (
 
 
 const Boot_Form = (props) => {
-
-
-  //let input_email = '';
-  //let formValid = false;  
-  //let input_password = '';
-  let emailValid = false;
-  let passwordValid = false;
+ 
+ //TODO: create a Ref for checkValidity() function
+ 
 
   const [input_email, setEmail] = useState('');
 
   const [input_password, setPass] = useState('');
 
-  const [formValid, setFormState] = useState(false);
-  
+  const [emailValid, setEmailValid] = useState(false); 
 
-  const validateForm = () => {
-    console.log("ev: " + emailValid + " pv: " + passwordValid);
-    setFormState(emailValid && passwordValid);
-  }
+  const [passwordValid, setPassValid] = useState(false);
+
 
   const handleEmailInput = (event) => {
-    setEmail(event.target.value);
-    emailValid = event.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-    validateForm();
+    setEmail(event.target.value);       
+    setEmailValid(event.target.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i));
+    
   }
 
   const handlePassInput = (event) => {
     setPass(event.target.value);
-    passwordValid = event.target.value.length >= 6;
-    validateForm();
+    setPassValid(event.target.value.length >= 6);
+    
   }
 
   const handleSubmit = (event) => {
@@ -56,10 +49,10 @@ const Boot_Form = (props) => {
   return (
     <React.Fragment>
       <h3 name="welcome" hidden>Привет, {input_email} </h3>
-      <form onSubmit={handleSubmit} className="form">
+      <Form onSubmit={handleSubmit} className="form">
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" name="input_email" onChange={handleEmailInput} value={input_email} />
+          <Form.Control type="email" placeholder="Enter email" name="input_email" onChange={handleEmailInput} value={input_email}/>
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">
@@ -69,10 +62,10 @@ const Boot_Form = (props) => {
         <Form.Group controlId="formBasicCheckbox">
           <Form.Check type="checkbox" label="Check me out" />
         </Form.Group>
-        <Button variant="primary" type="submit" name="but_submit" disabled={!formValid} >
+        <Button variant="primary" type="submit" name="but_submit" disabled={!(emailValid && passwordValid)} >
           Submit
           </Button>
-      </form>
+      </Form>
     </React.Fragment>
   );
 }
