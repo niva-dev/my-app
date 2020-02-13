@@ -22,18 +22,19 @@ class Boot_Form extends Component {
       input_password: '',
       emailValid: false,
       passwordValid: false,
-      formValid: false
+      isSubmitted: false
     }
     this.handleUserInput = this.handleUserInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   };
 
   validateField(fieldName, value) {
     switch (fieldName) {
       case 'input_email':
-        this.state.emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        this.setState({ emailValid: value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) });
         break;
       case 'input_password':
-        this.state.passwordValid = value.length >= 6;
+        this.setState({ passwordValid: value.length >= 6 });
         break;
       default:
         break;
@@ -52,14 +53,13 @@ class Boot_Form extends Component {
       [event.target.name]: event.target.value
     });
     this.validateField(event.target.name, event.target.value);
-    this.validateForm();
   }
 
   render() {
     return (
       <React.Fragment>
-        <h3 name="welcome" hidden>Привет, {this.state.input_email} </h3>
-        <Form onSubmit={this.handleSubmit} className="form">
+        <h3 name="welcome" hidden={!this.state.isSubmitted}>Привет, {this.state.input_email} </h3>
+        <Form onSubmit={this.handleSubmit} className="form" hidden={this.state.isSubmitted}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control type="email" placeholder="Enter email" name="input_email" onChange={this.handleUserInput} value={this.state.input_email} />
@@ -72,7 +72,7 @@ class Boot_Form extends Component {
           <Form.Group controlId="formBasicCheckbox">
             <Form.Check type="checkbox" label="Check me out" />
           </Form.Group>
-          <Button variant="primary" type="submit" name="but_submit" disabled={!this.state.formValid} >
+          <Button variant="primary" type="submit" disabled={!(this.state.emailValid && this.state.passwordValid)} >
             Submit
         </Button>
         </Form>
@@ -83,8 +83,8 @@ class Boot_Form extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    document.getElementsByClassName("form")[0].hidden = true;
-    document.getElementsByName("welcome")[0].hidden = false;
+    console.log(this);
+    this.setState({ isSubmitted: true });
   }
 
 }

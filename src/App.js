@@ -26,6 +26,8 @@ const Boot_Form = (props) => {
 
   const [passwordValid, setPassValid] = useState(false);
 
+  const [isSubmitted, setSubmit] = useState(false);
+
 
   const handleEmailInput = (event) => {
     setEmail(event.target.value);       
@@ -41,15 +43,14 @@ const Boot_Form = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    document.getElementsByClassName("form")[0].hidden = true;
-    document.getElementsByName("welcome")[0].hidden = false;
+    setSubmit(true);    
   }
 
 
   return (
     <React.Fragment>
-      <h3 name="welcome" hidden>Привет, {input_email} </h3>
-      <Form onSubmit={handleSubmit} className="form">
+      <h3 name="welcome" hidden={!isSubmitted}>Привет, {input_email} </h3>
+      <Form onSubmit={handleSubmit} className="form" hidden={isSubmitted}>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control type="email" placeholder="Enter email" name="input_email" onChange={handleEmailInput} value={input_email}/>
